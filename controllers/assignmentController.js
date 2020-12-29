@@ -19,3 +19,16 @@ module.exports.createAssignment =  async(req,res)=>{
         });
     }
 };
+
+module.exports.allAssignments = async(req,res)=>{
+    try {   
+            const assignments = await Assignment.find({});
+            return res.status(200).json({
+                assignments : assignments
+            });
+    } catch (error) {
+        return res.status(400).json({
+            message:error
+        });
+    }
+}
