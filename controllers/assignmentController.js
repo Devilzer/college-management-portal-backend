@@ -36,7 +36,16 @@ module.exports.allAssignments = async(req,res)=>{
 
 module.exports.createSubbmition = async (req,res)=>{
     try {
-        let subbmission  =  
+        let submission  =  new Submission;
+        submission.teacher = req.body.teacher;
+        submission.student = req.body.student;
+        submission.pdf = req.body.pdf;
+        submission.title = req.body.title;
+        submission.description = req.body.description;    
+        await submission.save();
+        return res.status(200).json({
+            message : "Assignment Submitted"
+        });
     } catch (error) {
         return res.status(400).json({
             message:error
