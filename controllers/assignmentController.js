@@ -51,4 +51,42 @@ module.exports.createSubbmition = async (req,res)=>{
             message:error
         });
     }
+};
+
+module.exports.getSubmissions= async(req,res)=>{
+    try {
+        let submissions;
+        if(req.body.user==="teacher"){
+             submissions =await Submission.find({teacher :req.body.name});
+        }
+        else{
+             submissions = await Submission.find({student:req.body.name});
+        }
+        return res.status(200).json({
+            submissions : submissions
+        });
+        
+    } catch (error) {
+        return res.status(400).json({
+            message:error
+        });
+    }
+};
+module.exports.setSubmissionMarks = async(req,res)=>{
+    try {
+        const submission =await Submission.findById(req.body.id);
+        if(submission){
+            submission.marks = req.body.marks;
+            await submission.save();
+        }
+        const submissions = await Submission.find({teacher:req.body.name});
+        return res.status(200).json({
+            submissions : submissions
+        });
+            
+    } catch (error) {
+        return res.status(400).json({
+            message:error
+        });
+    }
 }
